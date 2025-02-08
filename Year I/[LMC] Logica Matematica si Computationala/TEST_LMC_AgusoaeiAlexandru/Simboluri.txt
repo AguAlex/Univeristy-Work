@@ -1,0 +1,62 @@
+==== Operanzi: ====
+
+	T = U -- reuseste daca exista o potrivire (termenii se unifica)
+	T \= U -- reuseste daca nu exista o potrivire
+	T == U -- reuseste daca termenii sunt identici
+	T \== U -- reuseste daca termenii sunt diferiti
+	\+ false = true SAU not(X) -- negarea unui predicat
+
+	T =:= U -- forteaza evaluarea variabilelor inainte de verificare
+	T =\= u -- not =:=
+	T is U -- U trebuie sa fie o operatie, T rezultatul
+		(folosit in reguli pentru atribuire)
+
+	<,>,=<,>= -- operanzi de comparare
+	T ** U -- T^U
+	T // U -- impartire pe intregi
+	T is 5 mod 2 -- T = restul 5//2 
+	
+	^ -- folosit in exemplul de la bagof -- cuantificator existential
+	
+	
+==== Concepte: ====
+
+	Comentarii cu % sau /* <-> */
+	
+	Variabile: orice incepe cu _ sau litere mari.
+	Atomi: ce incepe cu litera mica sau e in ghilimele
+	Observatie: daca are spatiu si nu e in ghilimele => eraore
+	
+	Regula: Head :- Body.
+	Fapta: Head.
+	
+	?- nl -- printeaza o linie goala
+	
+	
+==== Functii predefinite: ====
+
+	• min/2, max/2, abs/1, sqrt/1, sin/1
+
+	• write/1, nl/0
+	
+	• length/2: al doilea argument ıntoarce lungimea listei date ca prim argument
+	• member/2: este adevarat daca primul argument se afla ın lista data ca al doilea argument
+	• append/3: identic cu predicatul anterior concat lists/3
+	• is_list/1
+	• last/2: este adevarat daca al doilea argument este identic cu ultimul element al listei date ca prim argument
+	• reverse/2: lista din al doilea argument este lista data ca prim element ın oglinda
+	• insertsort/2 sorteaza lista de pe primul argument folosind algoritmul insertion sort.
+	• bagof - returneaza false cand nu are solutie
+	  bagof((X,Y), (member(X,[1,2,2,2,3]), member(Y,[0,1,2,3,4,5]), X<Y),L).
+			L = [(1,2), (1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (2,3), (2,4), (2,5), (2,3), (2,4), (2,5), (3,4), (3,5)]
+	  bagof(X,Y^(member(X,[1,2,2,2,3]),member(Y,[0,1,2,3,4,5]),X<Y),L)
+			L = [1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3]
+	• setof -- bagof + incercare de eliminare duplicate
+	  setof(X, Y^(member(X,[1,2,2,2,3]),member(Y,[0,1,2,3,4,5]),X<Y),L).
+			L = [1, 2, 3]
+	• findall -- bagof, fara "^", deoarece toate variabilele sunt cuantificatori existentiali. Retunreaza [] cand nu are solutie
+	• atom_chars(Atom,CharList) descompune un atom ıntr-o lista de caractere.
+
+	
+==== 
+

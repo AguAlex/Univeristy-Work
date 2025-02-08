@@ -1,0 +1,34 @@
+Predicatul write/1:
+
+Exemplu: write('Hello, World!').
+Afișează un termen pe ecran.
+Predicatul read/1:
+
+Exemplu: read(X).
+Primește o intrare de la utilizator și unifică variabila X cu acea intrare.
+Predicatul is/2:
+
+Exemplu: X is 3 + 4.
+Evaluează expresia de pe dreapta și unifică variabila X cu rezultatul.
+Predicatul assert/1 și retract/1:
+
+Exemplu: assert(fact(1)).
+Adaugă sau elimină fapte din baza de cunoștințe dinamică.
+Predicatul findall/3:
+
+Exemplu: findall(X, member(X, [1, 2, 3]), List).
+Colectează toate soluțiile pentru o anumită interogare într-o listă.
+Predicatul length/2:
+
+Exemplu: length([1, 2, 3], Len).
+Unifică variabila Len cu lungimea listei.
+Predicatul member/2:
+
+Exemplu: member(X, [1, 2, 3]).
+Verifică dacă X este membru al listei.
+Predicatul cut (!)/0:
+
+Exemplu: cut_pred(X) :- !, predicate1(X).
+Limitează căutarea pentru a evita regăsirea altor soluții.
+
+append(X, L, Rez).

@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Victor+Mono:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body{
+    background-color: rgb(247, 247, 247);
+}
+
+header{
+    background-color: rgb(79, 79, 99);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo{
+    width: 40px;
+    height: 40px;
+}
+
+#social_media{
+    margin-left: 75%;
+    position: absolute;
+}
+
+.logo{
+    transition: transform 0.3s ease;
+    object-fit: contain;
+}
+
+.logo:hover{
+    transform: scale(1.1);
+}
+
+.hquiz_status, .cquiz_status, .jquiz_status{
+    background-color: rgb(229, 18, 18);
+    height: 80%;
+    width: 25%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    object-fit: contain;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.cquiz_status{
+    background-color: rgb(88, 146, 220);
+}
+.jquiz_status{
+    background-color: rgb(234, 218, 38);
+}
+
+.hquiz_status:hover, .cquiz_status:hover, .jquiz_status:hover{
+    transform: scale(1.1);
+
+}
+
+#quiz_section{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.titlu_quiz{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#currentScoreJS, #currentScoreH, #currentScoreC{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px
+}
+
+.btn, #drop_btn{
+    cursor: pointer;
+    background-color: rgb(210, 178, 178);
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    transition: all 0.3s ease;
+    padding: 5px;
+    
+}
+
+#drop_btn{
+    border-radius: 0;
+}
+
+.btn:hover{
+    transform: scale(1.05);
+    background-color: rgb(164, 163, 163);
+}
+
+#dropdown{
+    margin-left: 80%;
+    position: absolute;
+}
+
+
+#dropdown_content{
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    margin-top:1px;
+    background-color: rgba(210, 178, 178, 0.7);
+    width: 68px;
+}
+
+#dropdown_content:hover{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#dropdown:hover #dropdown_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#dropdown_content a{
+    background-color: rgb(210, 178, 178);
+    margin: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+#information_section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    
+   
+}

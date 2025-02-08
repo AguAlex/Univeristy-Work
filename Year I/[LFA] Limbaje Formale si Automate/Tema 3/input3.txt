@@ -1,0 +1,7 @@
+q0 q1 q2
+a b c
+Z A B
+q0
+q2
+3
+q0 a 

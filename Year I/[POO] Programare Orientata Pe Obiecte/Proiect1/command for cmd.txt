@@ -1,0 +1,4 @@
+ g++ -c -o Header.o Header.cpp
+ g++ -c -o main.o main.cpp
+ g++ -o main main.o Header.o
+ main

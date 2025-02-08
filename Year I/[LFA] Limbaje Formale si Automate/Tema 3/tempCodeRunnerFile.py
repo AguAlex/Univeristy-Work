@@ -1,0 +1,1 @@
+stare_actuala in stari_finale and (stack == ['Z'] or not stack)

@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: background-color 1s infinite;
+}
+
+#container {
+    display: grid;
+    border: 1px solid black;
+}
+
+.patrat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 800px) {
+    #container {
+        width: 500px;
+        height: 500px;
+        background-color: green;
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .patrat:nth-child(odd) {
+        border: 1px solid blue;
+    }
+    .patrat:nth-child(even) {
+        border: 1px solid red;
+    }
+}
+
+@media (max-width: 800px) {
+    #container {
+        width: 50%;
+        height: auto;
+        background-color: green;
+        grid-template-columns: 1fr;
+    }
+    body {
+        animation: bg-color-change 2s infinite;
+    }
+}
+
+@keyframes bg-color-change {
+    0% { background-color: white; }
+    50% { background-color: yellow; }
+    100% { background-color: white; }
+}

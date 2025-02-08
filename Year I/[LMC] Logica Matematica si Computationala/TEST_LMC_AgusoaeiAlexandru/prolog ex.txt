@@ -1,0 +1,92 @@
+1. Ultimul elem din lista
+f(X, [X]).
+f(X, [_ | T]) :- f(X, T).
+
+
+2. Al K-lea elem din lista
+f(X, [X | _], 1).
+f(X, [_ | T], K) :- NCnt is K - 1, f(X, T, NCnt).
+
+
+3. Numar de elem din lista
+f(0, []).
+f(Cnt, [_ | T]) :- f(NCnt, T), Cnt is NCnt + 1.
+
+
+4. Lista inversa
+f(L, Rev) :- fr(L, [], Rev).
+fr([], X, X).
+fr([H | T], L, Rev) :- fr(T, [H | L], Rev).
+
+
+5. Daca o lista e palindrom
+f(L) :- reverse(L, L).
+
+6. Eliminare elemente consecutive in lista
+f([X],[X]).
+f([X, X | Tail], Rez) :-  f([X | Tail], Rez).
+f([X, Y | Tail], [X | Rez]) :- f([Y | Tail], Rez).
+
+7. Duplicare elemente din lista
+f([],[]).
+f([X | T], [X, X | Rez]) :-  f(T, Rez).
+
+8. Duplicare de N ori fiecare element din lista
+f([], _, []).
+f([X | T], N, R) :-  dupl(X, N, Duplicare), f(T, N, Rez), append(Duplicare, Rez, R).
+
+dupl(_, 0, []).
+dupl(X, N, [X | Rez]) :- NewN is N - 1, dupl(X, NewN, Rez).
+
+9. Stergere al K-lea element din lista
+f([], _, []).
+f([H | T], N, [H | Rez]) :- N \= 1, NewN is N-1, f(T, NewN, Rez).
+f([_ | T], N, Rez) :- N is 1, NewN is N-1, f(T, NewN, Rez).
+
+10. Stergere valoare X dintr-o lista
+f([], _, []).
+f([H | T], X, [H | Rez]) :- H \= X,  f(T, X, Rez).
+f([H | T], X, Rez) :- H = X,  f(T, X, Rez).
+
+11. Impartire lista in 2 liste cu lungimea primeia N
+f([], 0, [], []).
+f([H | T], N, [H | Rez], L2) :- N > 0, NewN is N - 1, f(T, NewN, Rez, L2).
+f([H | T], N, L1, [H | Rez]) :- N is 0, f(T, N, L1, Rez).
+
+12. Extragere elem de pe pozitii intre X si Y din lista
+f([X | _], 1, 1, [X]).
+f([_ | T], X, Y, Rez) :- X > 1, NewX is X - 1, NewY is Y-1, f(T, NewX, NewY, Rez).
+f([H | T], X, Y, [H | Rez]) :- X is 1, Y > 1 , NewY is Y-1, f(T, X, NewY, Rez).
+
+
+13. Inserare element in lista pe pozitia K
+f(_, [], _, []).
+f(X, L, K, [X | Rez]) :- K is 1, NewK is K-1, f(X, L, NewK, Rez).
+f(X, [H | T], K, [H | Rez]) :- K > 1, NewK is K-1, f(X, T, NewK, Rez).
+f(X, [H | T], K, [H | Rez]) :- NewK is K-1, f(X, T, NewK, Rez).
+
+14.  Stergere elemente din lista inafara invervalului [X, Y]
+f([], _, _, []).
+f([H | T], X, Y, [H | Rez]) :- H >= X, H =< Y, f(T, X, Y, Rez).
+f([_ | T], X, Y, Rez) :- f(T, X, Y, Rez).
+
+15. Creare lista cu numere din invervalul [X, Y]
+f(X, X, [X]).
+f(X, Y, [X | Rez]) :- X =< Y, NewX is X + 1, f(NewX, Y, Rez).
+
+16. Primele X numere dintr-o lista
+f([_|_], 0, []).
+f([H | T], X, [H | Rez]) :- X > 0, NewX is X-1, f(T, NewX, Rez).
+
+17. Ex 3 model
+rmdn(X, X) :- atom(X).
+rmdn(non(X), non(X)) :- atom(X).
+rmdn(non(non(A)), R) :- rmdn(A, R).
+
+rmdn(non(sau(A, B)), non(R)) :- rmdn(sau(A, B), R).
+rmdn(sau(A, B), sau(X, Y)):- rmdn(A, X), rmdn(B, Y). 
+
+
+
+
+

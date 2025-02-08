@@ -1,0 +1,15 @@
+.buton{
+    border-radius: 50px;
+    margin-right: 10px;
+
+}
+
+.par{
+    background-color: green;
+    color: white;
+}
+
+.impar{
+    background-color: yellow;
+    color: black;
+}

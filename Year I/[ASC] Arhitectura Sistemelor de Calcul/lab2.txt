@@ -1,0 +1,55 @@
+add op1, op2:
+op2 = op2 + op1
+
+sub op1, op2:
+op2 = op2 - op1
+
+mul op (registru)
+(edx, eax) = eax * op
+eax - primii 32 de biti ai rezultatului
+edx - urmatorii 32
+EX:
+mov $5, %eax
+mov $6, %ebx
+mul %ebx
+=>eax=30, edx=0
+
+div op
+(edx, eax) = (edx, eax) / op
+eax - catul impartirii
+edx - restul impartirii
+EX:
+mov $16, %eax
+mov $0, %edx
+mov $3, %ebx
+div %ebx
+=> eax=5, edx=1
+
+imul, idiv pt nr cu semn
+
+not op - negatie
+
+and op1, op2 
+op2 = op2 & op1
+
+or op1, op2
+op2 = op2 | op1
+1
+xor op1, op2
+op2 = op2 ^ op1
+
+shl nr, op - shift left cu nr biti
+op = op << nr
+
+shr nr, op - shift right cu nr biti
+
+sal, sar - pastreaza bitul de semn ( nu il shifteaza )
+
+cmp op1, op2 - compara pe op2 cu op1, rezultatul va fi in flags
+
+je label - se duce la label daca op2 = op1
+jne label - se duce la label daca op2 != op1
+jg label - se duce la label daca op2 > op1
+jge label -                 daca op2 >= op1
+jl label -                  daca op2 < op1
+jle -                       daca op2 <= op1

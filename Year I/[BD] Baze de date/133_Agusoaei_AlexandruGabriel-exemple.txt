@@ -1,0 +1,155 @@
+--12
+--1. Identificati grupurile si numarul de utilizatori, folosind o clauza WITH pentru a numara utilizatorii pe grupuri
+--si o expresie CASE pentru a clasifica grupurile(mic sau mare, adica cu mai mult de 2 utilizatori).
+--bloc de cerere (clauza WITH), grupari de date, functii grup, ordonare, expresie CASE
+
+WITH nr_util_grupuri AS (
+    SELECT g.grup_id, COUNT(*) numar_utilizatori
+    FROM grupuri g, utilizatori_si_grupuri ug
+    WHERE g.grup_id = ug.grup_id
+    GROUP BY g.grup_id
+)
+SELECT g.denumire, n.numar_utilizatori,
+                                        CASE 
+                                        WHEN n.numar_utilizatori > 2 THEN 'Grup mare'
+                                        ELSE 'Grup mic'
+                                        END tip_grup
+FROM grupuri g, nr_util_grupuri n
+WHERE n.grup_id = g.grup_id
+ORDER BY 2 DESC;
+
+
+--2.Sa se afiseze id-ul, numele, prenumele si strada pe care locuiesc utilizatorii care si-au schimbat parola in ultimele 6 luni.
+--subcerere sincronizata, functie data calendaristica, exists
+
+SELECT u.utilizator_id, u.nume, u.prenume, a.strada
+FROM utilizatori u
+JOIN locatii l ON u.locatie_id = l.locatie_id
+JOIN adrese a ON l.adresa_id = a.adresa_id
+WHERE EXISTS (
+    SELECT *
+    FROM istoric_parole ip, parole p
+    WHERE ip.parola_id = p.parola_id
+    AND ip.utilizator_id = u.utilizator_id
+    AND ip.data_schimbare >= ADD_MONTHS(SYSDATE, -6)
+);
+
+--3.Sa se afiseze numele ?i prenumele utilizatorilor impreuna cu numarul de grupuri din care fac parte. 
+--subcerere nesincronizata in clauza from, functii pe siruri de caractere
+SELECT UPPER(u.nume), LOWER(u.prenume), CONCAT(u.nume, CONCAT(' ',u.prenume)) Nume_Complet, g.numar_grupuri 
+FROM utilizatori u, (
+    SELECT ug.utilizator_id, COUNT(ug.grup_id) numar_grupuri
+    FROM utilizatori_si_grupuri ug
+    GROUP BY ug.utilizator_id
+) g
+WHERE u.utilizator_id = g.utilizator_id;
+
+
+--4.Afisati id-ul, numele si prenumele utilizatorilor, impreuna cu mail-ul lor in cazul in care exista si tipul de locatie.
+--nvl, decode, ordonare
+SELECT u.nume, u.prenume,
+       NVL(u.email, 'email_necunoscut') email,
+       DECODE(l.oras, 'Bucuresti', 'Capitala', 'Provincie') locatie
+FROM utilizatori u, locatii l
+WHERE u.locatie_id = l.locatie_id
+ORDER BY 1;
+
+
+--5.Sa se afiseze orasele si numarul de utilizatori din fiecare oras. Filtreaza rezultatele pentru a avea doar orase care contin litera 'u'.
+--grupari de date, functii grup
+
+SELECT l.oras, COUNT(u.utilizator_id) numar_utilizatori
+FROM utilizatori u, locatii l
+WHERE u.locatie_id = l.locatie_id
+GROUP BY l.oras
+HAVING l.oras like '%u%';
+
+--13.
+--a.Sterge toate albumele care nu contin nicio fotografie.
+
+INSERT INTO albume_fotografii
+VALUES (110, 21, 'Album gol', TO_DATE('02/02/2024', 'DD/MM/YYYY'));
+
+DELETE FROM albume_fotografii a
+WHERE a.album_id NOT IN (
+    SELECT f.album_id
+    FROM fotografii f
+);
+
+--b. Actualizeaza adresa utilizatorilor care au creat cel putin un album, setand numarul strazii la 99.
+UPDATE adrese a
+SET a.numar_strada = 99
+WHERE a.adresa_id IN (
+    SELECT l.adresa_id
+    FROM locatii l
+    JOIN utilizatori u ON l.locatie_id = u.locatie_id
+    JOIN albume_fotografii af ON u.utilizator_id = af.utilizator_id
+);
+
+--c. Actualizeaza nivelul de securitate al parolelor la 6 pentru utilizatorii care locuiesc in "Suceava".
+UPDATE parole p
+SET p.nivel_securitate = 6
+WHERE p.parola_id IN (
+    SELECT u.parola_id
+    FROM utilizatori u
+    JOIN locatii l ON u.locatie_id = l.locatie_id
+    WHERE l.oras = 'Suceava'
+);
+
+
+--15. 
+--a. Afisati toti utilizatorii, locatiile lor, grupurile din care fac parte si numele albumelor lor, inclusiv utilizatorii
+--care nu au locatii, grupuri sau albume asociate.
+
+SELECT u.nume, u.prenume, u.email, l.oras, l.tara, g.denumire, af.album_nume
+FROM utilizatori u
+LEFT JOIN locatii l ON u.locatie_id = l.locatie_id
+LEFT JOIN utilizatori_si_grupuri ug ON u.utilizator_id = ug.utilizator_id
+LEFT JOIN grupuri g ON ug.grup_id = g.grup_id
+LEFT JOIN albume_fotografii af ON u.utilizator_id = af.utilizator_id;
+
+--b. Gasiti utilizatorii care au adaugat toate piesele artistului 'The Weeknd' in oricare dintre playlisturile lor.
+
+SELECT u.utilizator_id, u.nume, u.prenume
+FROM utilizatori u
+WHERE NOT EXISTS (
+    SELECT p.piesa_id
+    FROM piese p
+    WHERE p.artist_nume = 'The Weeknd'
+    MINUS
+    SELECT pp.piesa_id
+    FROM playlisturi_si_piese pp
+    WHERE pp.utilizator_id = u.utilizator_id
+    );
+
+
+--c. Sa se afiseze top 2 utilizatori care au creat cele mai multe albume.
+SELECT *
+FROM (
+    SELECT u.utilizator_id, u.nume, u.prenume, COUNT(af.album_id) numar_albume
+    FROM utilizatori u
+    JOIN albume_fotografii af ON u.utilizator_id = af.utilizator_id
+    GROUP BY u.utilizator_id, u.nume, u.prenume
+    ORDER BY numar_albume DESC
+)
+WHERE ROWNUM <= 3;
+
+14.
+CREATE VIEW view_utilizatori AS
+SELECT u.utilizator_id, CONCAT(u.nume, CONCAT(' ', u.prenume)) nume, p.parola_nume, l.oras, a.apartament
+FROM utilizatori u
+JOIN locatii l on l.locatie_id = u.locatie_id
+JOIN adrese a on a.adresa_id = l.adresa_id
+JOIN parole p on u.parola_id = p.parola_id;
+
+SELECT *
+FROM view_utilizatori;
+
+--permis - update
+UPDATE  view_utilizatori
+SET apartament = 100
+WHERE nume = 'Popescu Andrei';
+
+--actiune nepermisa inserarea de date
+INSERT INTO view_utilizatori
+VALUES (50, 'Agusoaei Alexandru', 'parola','Bucuresti', 10);

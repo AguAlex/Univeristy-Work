@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Victor+Mono:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body{
+    background-color: rgb(247, 247, 247);
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+#board{
+    background-color: rgb(234, 50, 50);
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 10px 10px 5px rgb(223, 179, 126);
+}
+
+#answer_section{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid black;
+}
+
+.btn, #next{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    border: none;
+    margin: 10px 0px; 
+    text-align: left;
+    border-radius: 5px;
+    height: 30px;
+    transition: all 0.3s ease;
+    
+    
+}
+
+.btn:hover:not([disabled]), #next:hover{
+    transform: scale(1.05);
+    background-color: rgb(164, 163, 163);
+}
+
+.btn:disabled{
+    color: black;
+    cursor: no-drop;
+}
+
+
+#next{
+    margin-left: 50%;
+    margin-right: 50%;
+    padding: 5px;
+    display: none;
+    
+}
+
+#backBtn{
+    display: none;
+    padding: 5px;
+    
+
+}
+
+.sec{
+    display: flex;
+    justify-content: center;
+}

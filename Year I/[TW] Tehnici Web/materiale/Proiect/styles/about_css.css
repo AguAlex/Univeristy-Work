@@ -1,0 +1,22 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: rgba(89, 89, 215, 0.516);
+}
+h1 {
+    color: #333;
+}
+h2 {
+    color: #555;
+}
+p {
+    color: #666;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,30 @@
+% Varianta 1 Agusoaei Alexandru Gabriel grupa 133
+%1
+%cazurile de baza in functie de numarul de elemente din lista
+removeOdd([X], [X]).  %pentru nr de elemente impar
+removeOdd([], []).	  %pentru nr de elemnente par
+
+%adaugam la rezultat fiecare element de pe prima pozitie, luate elementele 2 cate 2
+removeOdd([X, _ | T], [X | Rez]) :- removeOdd(T, Rez).
+
+%2
+%cazurile de baza cand mai ramane un singur punct doar in una din cele 2 liste
+mergePts([p(X1, Y1)], [], [p(X1, Y1)]).
+mergePts([], [p(X2, Y2)], [p(X2, Y2)]).
+
+%adaugam la rezultat punctul cu prima coordonata mai mica
+mergePts([p(X1, Y1) | T1], [p(X2, Y2) | T2], [p(X1, Y1) | Rez]) :- X1 =< X2,
+    mergePts(T1, [p(X2, Y2) | T2], Rez).
+mergePts([p(X1, Y1) | T1], [p(X2, Y2) | T2], [p(X2, Y2) | Rez]) :- X1 > X2,
+    mergePts([p(X1, Y1) | T1], T2, Rez).
+
+%3
+noDuplicateVar(X) :- vars(X, []).
+vars(_, []).
+vars(V, [V | T]) :- atom(V), not(member(V, T)).
+vars(non(X), R) :- vars(X, R).
+vars(si(X, Y), R) :- vars(X, T), vars(Y, U), union(T, U, R).
+vars(sau(X, Y), R) :- vars(X, T), vars(Y, U), union(T, U, R).
+vars(imp(X, Y), R) :- vars(X, T), vars(Y, U), union(T, U, R).
+
+

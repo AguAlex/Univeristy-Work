@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link href="styles/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div>Welcome to my Quiz Game!</div>
+        <div id="dropdown">
+            <button id="drop_btn">Contact</button>
+            <div id="dropdown_content">
+                <a href="https://github.com/AguAlex">
+                    <img class="logo" alt="Github" src="assets/github_logo.png">
+                </a>
+                <a href="https://www.instagram.com/aguwxk/">
+                    <img class="logo" alt="Instagram" src="assets/instagram_logo.png">
+                </a>
+            </div>
+        </div>
+    </header>
+    <section id="quiz_section">
+        <div class="hquiz_status">
+            <div class="titlu_quiz">
+                 Quiz - HTML
+            </div>
+            <div class="logoAndScore">
+                <img class="logoImg" alt="html" src="assets/html_logo.png">
+            </div>
+            <div id="currentScoreH">
+                <div id="clickToStartH">
+                    <p>Click To Start</p>
+                </div>
+                <svg viewBox="0 0 36 36" width="100" height="100">
+                    <path
+                      id="svgH"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="#c2c6ed"
+                      stroke-width="3"
+                      stroke-dasharray="0, 100"
+                    />
+                    <text id="perTxtH" fill="white" x="50%" y="50%" text-anchor="middle" stroke="#51c5cf" stroke-width="0px" dy=".3em" font-size="9px">0%</text>
+                </svg>
+            </div>
+        </div>
+        <div class="cquiz_status">
+            <div class="titlu_quiz">
+                 Quiz - CSS
+            </div>
+            <div class="logoAndScore">
+                <img class="logoImg" alt="Css" src="assets/css_logo.png">
+            </div>
+            <div id="currentScoreC">
+                <div id="clickToStartC">
+                    <p>Click To Start</p>
+                </div>
+                <svg viewBox="0 0 36 36" width="100" height="100">
+                    <path
+                      id="svgC"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="#c2c6ed"
+                      stroke-width="3"
+                      stroke-dasharray="0, 100"
+                    />
+                    <text id="perTxtC" fill="white" x="50%" y="50%" text-anchor="middle" stroke="#51c5cf" stroke-width="0px" dy=".3em" font-size="9px">0%</text>
+                </svg>
+            </div>
+        </div>
+        <div class="jquiz_status">
+            <div class="titlu_quiz">
+                 Quiz - JavaScript
+            </div>
+            <div class="logoAndScore">
+                <img id="jsLogo" src="assets/js_logo.png" alt="JavaScript Logo">
+            </div>
+            <div id="currentScoreJS">
+                <div id="clickToStartJ">
+                    <p>Click To Start</p>
+                </div>
+                <svg viewBox="0 0 36 36" width="100" height="100">
+                    <path
+                      id="svgJ"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="#c2c6ed"
+                      stroke-width="3"
+                      stroke-dasharray="0, 100"
+                    />
+                    <text id="perTxtJ" fill="white" x="50%" y="50%" text-anchor="middle" stroke="#51c5cf" stroke-width="0px" dy=".3em" font-size="9px">0%</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+    <div id="resetSection">
+        <button class="btn">Reset Score</button>
+    </div>
+    <footer id="information_section">
+        <div class='aboutHtml'>
+            <button class="aboutBtn">About HTML</button>
+        </div>
+        <div class="aboutCss">
+            <button class="aboutBtn">About CSS</button>
+        </div>
+        <div class="aboutJs">
+            <button class="aboutBtn">About JavaScript</button>
+        </div>
+        
+        <h2>Introdu numele tău:</h2>
+        <form action="http://localhost:3000/submit" method="post">
+            <input type="text" name="nume" required>
+            <button type="submit">Trimite</button>
+        </form>
+        <p id="currentDate"></p>
+    
+        
+        
+          
+    </footer>
+    <script src="scripts/script.js"></script>
+    <script src="app.js"></script>
+    
+    
+</body>
+</html>

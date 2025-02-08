@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Basics</title>
+    <link href="styles/about_css.css" rel="stylesheet">
+    
+</head>
+<body>
+    <header>
+        <h1>CSS Basics</h1>
+    </header>
+    <main>
+        <section>
+            <h2>What is CSS?</h2>
+            <p>CSS (Cascading Style Sheets) is a style sheet language used for describing the presentation of a document written in HTML. It controls the layout, colors, fonts, and other visual aspects of a web page, allowing for better presentation and separation of content and design.</p>
+        </section>
+        <section>
+            <h2>Basic Syntax</h2>
+            <p>CSS rulesets consist of a selector and a declaration block. The selector specifies which elements the styles should apply to, and the declaration block contains one or more declarations, each consisting of a property and a value.</p>
+            <pre>
+selector {
+    property: value;
+}
+            </pre>
+            <p>For example:</p>
+            <pre>
+h1 {
+    color: blue;
+    font-size: 24px;
+}
+            </pre>
+        </section>
+        <section>
+            <h2>CSS Selectors</h2>
+            <p>CSS selectors are patterns used to select elements to which a set of CSS rules apply. Some common CSS selectors include:</p>
+            <ul>
+                <li>Type selectors: <code>h1</code>, <code>p</code>, <code>div</code></li>
+                <li>Class selectors: <code>.classname</code></li>
+                <li>ID selectors: <code>#idname</code></li>
+                <li>Descendant selectors: <code>parent child</code></li>
+                <li>Pseudo-classes: <code>:hover</code>, <code>:nth-child()</code></li>
+            </ul>
+        </section>
+        <section>
+            <h2>Box Model</h2>
+            <p>The CSS box model describes the rectangular boxes that are generated for elements in the document tree. It consists of content, padding, border, and margin.</p>
+            <p>The properties related to the box model include:</p>
+            <ul>
+                <li><code>width</code> and <code>height</code>: Specifies the width and height of the content area</li>
+                <li><code>padding</code>: Clears an area around the content</li>
+                <li><code>border</code>: A border surrounding the padding</li>
+                <li><code>margin</code>: Clears an area outside the border</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>For more information, visit <a href="https://www.w3schools.com/css/">W3Schools CSS Tutorial</a></p>
+    </footer>
+</body>
+</html>
