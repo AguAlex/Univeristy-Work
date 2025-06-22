@@ -1,0 +1,348 @@
+8
+a) Codificarea cromozomului
+Un cromozom este o secvență binară de lungime n (în cazul nostru n = 8), unde fiecare genă corespunde unui obiect.
+
+Lungimea cromozomului: n = 8
+
+Valoarea fiecărei gene: 0 (obiectul nu este selectat) sau 1 (obiectul este inclus în soluție).
+
+Exemplu:
+Cromozomul 10101001 înseamnă:
+
+Obiectele 1, 3, 5 și 8 sunt selectate.
+
+Restul nu sunt.
+
+✅ b) Funcția de fitness
+Funcția de fitness trebuie să:
+
+Maximizeze suma valorilor obiectelor selectate, dar
+
+Penalizeze soluțiile în care probabilitatea totală e sub pragul P.
+
+Definiții:
+Fie V[i] valoarea obiectului i
+
+Fie P[i] probabilitatea ca obiectul i să ajungă intact
+
+Pentru o soluție X = x1 x2 ... xn, calculăm:
+
+Valoarea totală: val(X) = Σ xi * V[i]
+
+Probabilitate totală (produs): prob(X) = ∏ P[i]^xi
+
+Fitness:
+text
+Copy
+Edit
+fitness(X) = val(X), dacă prob(X) ≥ P
+             0       , altfel
+Alternativ, putem penaliza:
+
+text
+Copy
+Edit
+fitness(X) = val(X) * min(1, prob(X)/P)
+✅ c) Exemplu cu 2 cromozomi și recombinare
+Datele:
+text
+Copy
+Edit
+Obiecte: (valoare, probabilitate)
+1: (4, 4/5)
+2: (6, 3/5)
+3: (3, 4/5)
+4: (7, 1/3)
+5: (2, 7/10)
+6: (10, 1/3)
+7: (5, 3/4)
+8: (3, 2/3)
+P = 1/8 = 0.125
+Exemplu de 2 cromozomi:
+Cromozom A: 10101001
+→ Selectează obiectele 1,3,5,8
+
+Valoare totală: 4 + 3 + 2 + 3 = 12
+
+Probabilitate: (4/5)*(4/5)*(7/10)*(2/3) ≈ 0.2987 → ≥ P ✅
+
+Cromozom B: 01100110
+→ Selectează obiectele 2,3,6,7
+
+Valoare totală: 6 + 3 + 10 + 5 = 24
+
+Probabilitate: (3/5)*(4/5)*(1/3)*(3/4) ≈ 0.15 → ≥ P ✅
+
+Recombinare (Crossing-over în punctul 4)
+Punct de tăiere: după poziția 4
+yaml
+Copy
+Edit
+A: 1 0 1 0 | 1 0 0 1
+B: 0 1 1 0 | 0 1 1 0
+---------------------
+Copil 1: 1 0 1 0 | 0 1 1 0 = 10100110
+Copil 2: 0 1 1 0 | 1 0 0 1 = 01101001
+Calcul pentru copii
+Copil 1: 10100110
+→ Obiecte: 1,3,6,7 → Valoare: 4 + 3 + 10 + 5 = 22
+→ Probabilitate: (4/5)*(4/5)*(1/3)*(3/4) ≈ 0.16 ✅ ≥ P
+
+Copil 2: 01101001
+→ Obiecte: 2,3,5,8 → Valoare: 6 + 3 + 2 + 3 = 14
+→ Probabilitate: (3/5)*(4/5)*(7/10)*(2/3) ≈ 0.16 ✅ ≥ P
+
+3.
+✅ Contextul cerinței
+Avem două mulțimi 
+𝑀
+1
+,
+𝑀
+2
+⊂
+𝑅
+2
+M 
+1
+​
+ ,M 
+2
+​
+ ⊂R 
+2
+ , fiecare cu 5 puncte.
+
+Fiecare diagramă Voronoi asociată 
+𝑀
+1
+M 
+1
+​
+  și 
+𝑀
+2
+M 
+2
+​
+  trebuie să conțină exact 5 semidrepte.
+
+Diagrama Voronoi asociată cu 
+𝑀
+=
+𝑀
+1
+∪
+𝑀
+2
+M=M 
+1
+​
+ ∪M 
+2
+​
+  (deci 10 puncte) trebuie să conțină exact 3 semidrepte.
+
+Trebuie să justificăm aceste afirmații și să calculăm numărul de muchii și triunghiuri în triangularea Delaunay a mulțimii 
+𝑀
+M.
+
+📌 1. Reamintire: Ce sunt semidreptele într-o diagramă Voronoi?
+O semidreaptă într-o diagramă Voronoi apare pentru un punct de pe margine – adică dacă o regiune Voronoi este neînchisă, marginea ei se extinde la infinit.
+
+Numărul de semidrepte = numărul de regiuni Voronoi neînchise = numărul de puncte aflate pe convex hull (conturul convex)
+
+✅ 2. Exemplu de construcție
+Alegere pentru 
+𝑀
+1
+M 
+1
+​
+  și 
+𝑀
+2
+M 
+2
+​
+ 
+Alegem ambele mulțimi astfel:
+
+Fiecare punct este plasat astfel încât toate 5 punctele sunt pe convex hull
+
+Asta înseamnă că niciun punct nu e în interior → toate vor avea regiuni deschise în diagrama Voronoi
+
+⇒ Deci, fiecare diagramă are 5 semidrepte.
+
+Exemplu concret (pentru M₁):
+text
+Copy
+Edit
+M₁ = {(0,0), (2,0), (2,2), (1,3), (0,2)} → formă pentagonală convexă
+Similar și pentru 
+𝑀
+2
+M 
+2
+​
+ , dar plasat în altă parte a planului.
+
+Alegere pentru 
+𝑀
+=
+𝑀
+1
+∪
+𝑀
+2
+M=M 
+1
+​
+ ∪M 
+2
+​
+ 
+Alegem 
+𝑀
+1
+M 
+1
+​
+  și 
+𝑀
+2
+M 
+2
+​
+  astfel încât:
+
+Cele două mulțimi să fie apropiate, dar 7 puncte să fie în interiorul convex hull-ului lui 
+𝑀
+M
+
+Doar 3 puncte rămân pe margine ⇒ doar 3 semidrepte în Voronoi-ul lui M
+
+Exemplu:
+𝑀
+1
+M 
+1
+​
+  rămâne ca mai sus.
+
+𝑀
+2
+M 
+2
+​
+  este plasat în interiorul pentagonului format de 
+𝑀
+1
+M 
+1
+​
+ 
+
+Din cele 10 puncte, doar 3 sunt pe marginea convex hull ⇒ 3 semidrepte în Voronoi
+
+✅ 3. Justificarea numărului de muchii și triunghiuri
+Formule din geometria plană pentru triangularea unui set de puncte în generală poziție (fără coliniaritate sau 4 puncte cocirculare):
+
+Fie 
+𝑛
+=
+10
+n=10 (puncte în total), și 
+ℎ
+h = nr. de puncte pe convex hull
+
+Număr de triunghiuri:
+
+𝑇
+=
+2
+𝑛
+−
+ℎ
+−
+2
+T=2n−h−2
+Număr de muchii:
+
+𝐸
+=
+3
+𝑛
+−
+ℎ
+−
+3
+E=3n−h−3
+Dacă 
+ℎ
+=
+3
+h=3 (adică doar 3 puncte pe convex hull), atunci:
+𝑇
+=
+2
+⋅
+10
+−
+3
+−
+2
+=
+15
+T=2⋅10−3−2=15
+
+𝐸
+=
+3
+⋅
+10
+−
+3
+−
+3
+=
+24
+E=3⋅10−3−3=24
+
+✅ Rezumat
+Element	Explicație
+𝑀
+1
+M 
+1
+​
+ , 
+𝑀
+2
+M 
+2
+​
+ 	Fiecare conține 5 puncte aflate pe marginea unui poligon convex ⇒ fiecare Voronoi are 5 semidrepte
+𝑀
+=
+𝑀
+1
+∪
+𝑀
+2
+M=M 
+1
+​
+ ∪M 
+2
+​
+ 	Alegem ca 7 puncte să fie în interiorul convex hull-ului ⇒ doar 3 pe margine ⇒ doar 3 semidrepte
+Triangulare Delaunay	Pentru 
+𝑛
+=
+10
+n=10, 
+ℎ
+=
+3
+h=3: 15 triunghiuri, 24 muchii

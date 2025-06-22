@@ -1,0 +1,170 @@
+II.
+
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Automobil> lista = Arrays.asList(
+            new Automobil("Audi", "A4", 2000, 8000),
+            new Automobil("BMW", "320i", 2500, 10000),
+            new Automobil("Dacia", "Logan", 1400, 3500),
+            new Automobil("Audi", "A6", 3000, 12000)
+        );
+
+        // 1. Automobile cu pret ≥ 5000€, în ordine descrescătoare după preț
+        System.out.println("Automobile cu preț ≥ 5000€, ordonate descrescător:");
+        lista.stream()
+            .filter(a -> a.getPret() >= 5000)
+            .sorted(Comparator.comparingDouble(Automobil::getPret).reversed())
+            .forEach(System.out::println);
+
+        // 2. Mărci distincte
+        System.out.println("\nMărci distincte:");
+        lista.stream()
+            .map(Automobil::getMarca)
+            .distinct()
+            .forEach(System.out::println);
+
+        // 3. Liste cu automobile între 2000 și 3000 cm3
+        System.out.println("\nAutomobile cu capacitate între 2000 și 3000 cm3:");
+        List<Automobil> filtrate = lista.stream()
+            .filter(a -> a.getCapacitate() >= 2000 && a.getCapacitate() <= 3000)
+            .collect(Collectors.toList());
+        filtrate.forEach(System.out::println);
+
+        // 4. Prețul maxim pentru marca Audi
+        System.out.println("\nPrețul maxim pentru automobile marca Audi:");
+        OptionalDouble pretMaxAudi = lista.stream()
+            .filter(a -> a.getMarca().equalsIgnoreCase("Audi"))
+            .mapToDouble(Automobil::getPret)
+            .max();
+
+        if (pretMaxAudi.isPresent()) {
+            System.out.println(pretMaxAudi.getAsDouble() + "€");
+        } else {
+            System.out.println("Niciun Audi în listă.");
+        }
+    }
+}
+
+III.
+
+import java.io.*;
+import java.util.regex.*;
+
+public class CuvantCounter extends Thread {
+    private String fileName;
+    private String cuvant;
+    private int count = 0;
+
+    public CuvantCounter(String fileName, String cuvant) {
+        this.fileName = fileName;
+        this.cuvant = cuvant.toLowerCase();
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    @Override
+    public void run() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            Pattern pattern = Pattern.compile("\\b" + Pattern.quote(cuvant) + "\\b", Pattern.CASE_INSENSITIVE);
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = pattern.matcher(line);
+                while (matcher.find()) {
+                    count++;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Eroare la citirea fișierului: " + fileName);
+        }
+    }
+}
+Main:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduceți cuvântul căutat: ");
+        String cuvant = scanner.nextLine().trim();
+
+        // Se definesc cele 3 fire pentru cele 3 fișiere
+        CuvantCounter t1 = new CuvantCounter("exemplu_1.txt", cuvant);
+        CuvantCounter t2 = new CuvantCounter("exemplu_2.txt", cuvant);
+        CuvantCounter t3 = new CuvantCounter("exemplu_3.txt", cuvant);
+
+        // Se pornesc firele
+        t1.start();
+        t2.start();
+        t3.start();
+
+        // Se așteaptă finalizarea lor
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            System.err.println("Un fir a fost întrerupt.");
+        }
+
+        // Se adună rezultatele
+        int total = t1.getCount() + t2.getCount() + t3.getCount();
+        System.out.println("Cuvântul \"" + cuvant + "\" apare de " + total + " ori în total.");
+    }
+}
+
+IV.
+import java.sql.*;
+import java.util.Scanner;
+
+public class FiltrareAngajati {
+    public static void main(String[] args) {
+        String url = "jdbc:derby://localhost:1527/Angajati";
+        String user = ""; // dacă ai user/parolă, completează aici
+        String password = "";
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduceți salariul minim (s): ");
+        double s = scanner.nextDouble();
+
+        System.out.print("Introduceți vârsta maximă (v): ");
+        int v = scanner.nextInt();
+
+        String sql = "SELECT * FROM DateAngajati WHERE Varsta <= ? AND Salariu >= ?";
+
+        try (
+            Connection conn = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, v);
+            stmt.setDouble(2, s);
+
+            ResultSet rs = stmt.executeQuery();
+
+            boolean gasit = false;
+            while (rs.next()) {
+                gasit = true;
+                String cnp = rs.getString("CNP");
+                String nume = rs.getString("Nume");
+                int varsta = rs.getInt("Varsta");
+                double salariu = rs.getDouble("Salariu");
+
+                System.out.println("CNP: " + cnp + ", Nume: " + nume +
+                                   ", Vârstă: " + varsta + ", Salariu: " + salariu + " RON");
+            }
+
+            if (!gasit) {
+                System.out.println("Nu există angajați care respectă condițiile.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Eroare la accesarea bazei de date: " + e.getMessage());
+        }
+    }
+}
